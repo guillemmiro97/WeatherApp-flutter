@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:weatherapp_flutter/weather.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,7 +11,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,7 +32,29 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+Future<Weatherdata> fetchWeatherData() async {
+  final response = await http
+      .get(Uri.parse('https://api.openweathermap.org/data/2.5/weather?'
+          'units=metric&appid=f07cca337c89d967b5f2b8dee2884830&q=Barcelona'));
+
+  if (response.statusCode == 200) {
+    return Weatherdata.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load weather data');
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<Weatherdata> weatherData;
+
+  @override
+  void initState() {
+    super.initState();
+    weatherData = fetchWeatherData();
+    
+    print(weatherData);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,11 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   const Text(
                     "Barcelona",
-                    style: TextStyle(fontSize: 30, color: Colors.white),
+                    style: TextStyle(fontSize: 40, color: Colors.white),
                   ),
                   const Text(
                     "14°C",
-                    style: TextStyle(fontSize: 50, color: Colors.white),
+                    style: TextStyle(fontSize: 70, color: Colors.white),
                   ),
                   const Text("Despejado",
                       style: TextStyle(fontSize: 20, color: Colors.white)),
