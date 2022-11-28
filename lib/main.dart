@@ -37,37 +37,35 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             Container(
-                constraints: BoxConstraints(
-                  minWidth: MediaQuery.of(context).size.width,
-                ),
-                height: 300,
-                color: Colors.black,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Barcelona",
-                      style: TextStyle(fontSize: 30, color: Colors.white),
-                    ),
-                    const Text(
-                      "14°C",
-                      style: TextStyle(fontSize: 50, color: Colors.white),
-                    ),
-                    const Text("Despejado",
-                        style: TextStyle(fontSize: 20, color: Colors.white)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text("Min ",
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
-                        Text("Max",
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
-                      ],
-                    ),
-                  ],
-                ),
+              constraints: BoxConstraints(
+                minWidth: MediaQuery.of(context).size.width,
+              ),
+              height: 300,
+              color: Colors.black,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Barcelona",
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                  ),
+                  const Text(
+                    "14°C",
+                    style: TextStyle(fontSize: 50, color: Colors.white),
+                  ),
+                  const Text("Despejado",
+                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("Min ",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      Text("Max",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ],
+                  ),
+                ],
+              ),
             ),
             Container(
                 constraints: BoxConstraints(
@@ -89,13 +87,35 @@ class ListViewBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-                leading: const Icon(Icons.list, color: Colors.white,),
-                title: Text("List item $index", style: const TextStyle(color: Colors.white),));
-          }),
+      body: ListView.separated(
+        itemCount: 5,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: Text(
+              "List item $index",
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            title: const Icon(
+              Icons.sunny,
+              color: Colors.white,
+            ),
+            trailing: (Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text("Min ",
+                    style: TextStyle(fontSize: 20, color: Colors.white)),
+                Text("Max",
+                    style: TextStyle(fontSize: 20, color: Colors.white)),
+              ],
+            )),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider(
+            color: Colors.white,
+          );
+        },
+      ),
     );
   }
 }
