@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     weatherData = fetchWeatherData();
-    
+
     print(weatherData);
   }
 
@@ -70,24 +70,48 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Barcelona",
-                    style: TextStyle(fontSize: 40, color: Colors.white),
-                  ),
-                  const Text(
-                    "14°C",
-                    style: TextStyle(fontSize: 70, color: Colors.white),
-                  ),
-                  const Text("Despejado",
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text("Min ",
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
-                      Text("Max",
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
-                    ],
+                  FutureBuilder<Weatherdata>(
+                    future: weatherData,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: [
+                            const Text(
+                              "Barcelona",
+                              style: TextStyle(fontSize: 40, color: Colors.white),
+                            ),
+                            Text(
+                              "${snapshot.data!.temp.split(".")[0]}°",
+                              style: const TextStyle(
+                                  fontSize: 80, color: Colors.white),
+                            ),
+                            Text(
+                              snapshot.data!.main,
+                              style: const TextStyle(
+                                  fontSize: 40, color: Colors.white),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                    "Min: ${snapshot.data!.tempMin}°C ",
+                                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                                ),
+                                Text(
+                                  "Max: ${snapshot.data!.tempMax}°C",
+                                  style: const TextStyle(fontSize: 20, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+
+                      // By default, show a loading spinner.
+                      return const CircularProgressIndicator();
+                    },
                   ),
                 ],
               ),
