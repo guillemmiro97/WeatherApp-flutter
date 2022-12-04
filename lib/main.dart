@@ -38,6 +38,7 @@ Future<Weatherdata> fetchWeatherData() async {
       .get(Uri.parse('https://api.openweathermap.org/data/2.5/weather?'
           'units=metric&appid=f07cca337c89d967b5f2b8dee2884830&q=Barcelona'));
 
+  
   if (response.statusCode == 200) {
     return Weatherdata.fromJson(jsonDecode(response.body));
   } else {
@@ -181,7 +182,7 @@ class ListViewBuilder extends StatelessWidget {
                 trailing: (Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("${snapshot.data!.elementAt(index).temp} ",
+                    Text("${snapshot.data!.elementAt(index).tempMin} ",
                         style: const TextStyle(fontSize: 20, color: Colors.blue)),
                     Text(snapshot.data!.elementAt(index).tempMax,
                         style: const TextStyle(fontSize: 20, color: Colors.red)),
