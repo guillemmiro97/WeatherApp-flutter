@@ -22,3 +22,31 @@ class Weatherdata {
     );
   }
 }
+
+class ForecastData {
+  final String main;
+  final String date;
+  final String weatherDescription;
+  final String temp;
+  final String tempMax;
+  final String tempMin;
+
+  const ForecastData(
+      {required this.main,
+        required this.date,
+        required this.weatherDescription,
+        required this.temp,
+        required this.tempMax,
+        required this.tempMin});
+
+  factory ForecastData.fromJson(Map<String, dynamic> json) {
+    return ForecastData(
+      main: json['weather'][0]['main'],
+      date: json['list']['dt_txt'] as String,
+      weatherDescription: json['list']['weather']['description'] as String,
+      temp: json['list']['main']['temp'].toString(),
+      tempMax: json['list']['main']['temp_max'].toString(),
+      tempMin: json['list']['main']['temp_min'].toString(),
+    );
+  }
+}
